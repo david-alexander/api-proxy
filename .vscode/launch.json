@@ -1,0 +1,14 @@
+{
+    "configurations": [
+    {
+        "name": "Attach",
+        "port": 9232,
+        "request": "attach",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "node",
+        "localRoot": "${workspaceRoot}/fs",
+        "remoteRoot": "/app"
+    }]
+}

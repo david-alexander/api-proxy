@@ -1,0 +1,37 @@
+apiVersion: skaffold/v2beta18
+kind: Config
+build:
+  artifacts:
+    - image: api-proxy
+      context: fs
+      sync:
+        infer:
+          - "src/**"
+  local:
+    useBuildkit: true
+    useDockerCLI: true
+    push: false
+  tagPolicy:
+    gitCommit:
+      ignoreChanges: true
+deploy:
+  helm:
+    releases:
+      - name: api-proxy
+        namespace: api-proxy
+        createNamespace: true
+        chartPath: chart
+        artifactOverrides:
+          image: api-proxy
+        valuesFiles:
+          - "./my-values.yaml"
+portForward:
+  - resourceType: service
+    namespace: api-proxy
+    resourceName: api-proxy
+    port: 80
+  - resourceType: service
+    namespace: api-proxy
+    resourceName: api-proxy
+    port: 9229
+    localPort: 9232

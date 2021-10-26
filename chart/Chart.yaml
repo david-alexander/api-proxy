@@ -1,0 +1,4 @@
+apiVersion: v1
+name: "api-proxy"
+description: "API proxy"
+version: 0.1.0
