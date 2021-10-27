@@ -58,7 +58,7 @@ metadata:
     app.kubernetes.io/name: {{ .Chart.Name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: web
-  name: {{ .Chart.Name }}
+  name: web
   namespace: {{ .Release.Name }}
 spec:
   type: ClusterIP
