@@ -262,6 +262,7 @@ __metadata:
     class-validator: ^0.13.1
     http-proxy: ^1.18.1
     isomorphic-fetch: ^3.0.0
+    jwt-decode: ^3.1.2
     lodash: ^4.17.21
     nodemon: ^2.0.14
     readcache: ^0.1.7
@@ -1135,6 +1136,13 @@ __metadata:
   version: 3.0.0
   resolution: "json-buffer@npm:3.0.0"
   checksum: 0cecacb8025370686a916069a2ff81f7d55167421b6aa7270ee74e244012650dd6bce22b0852202ea7ff8624fce50ff0ec1bdf95914ccb4553426e290d5a63fa
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "jwt-decode@npm:3.1.2"
+  checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
   languageName: node
   linkType: hard
 

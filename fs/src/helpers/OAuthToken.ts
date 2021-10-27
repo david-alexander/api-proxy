@@ -60,6 +60,10 @@ export class OAuthTokenHelper extends Helper<OAuthTokenHelperInstanceStorage>
 
             return context.instanceStorage.storedToken.accessToken;
         }
+        else if (name == 'authorizationHeader')
+        {
+            return `Bearer ${await this.getOutput(context, 'token')}`;
+        }
 
         throw 'Unknown output name.';
     }

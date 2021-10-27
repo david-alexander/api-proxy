@@ -32,7 +32,7 @@ async function main()
             req.headers[key] = headers[key];
         }
 
-        proxy.web(req, res, { target: baseURL, changeOrigin: true }, (err: any) => {
+        proxy.web(req, res, { target: baseURL, changeOrigin: true, secure: false }, (err: any) => {
             console.log(err);
             if (!res.headersSent)
             {
