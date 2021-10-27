@@ -2,7 +2,7 @@ apiVersion: skaffold/v2beta18
 kind: Config
 build:
   artifacts:
-    - image: api-proxy
+    - image: web
       context: fs
       sync:
         infer:
@@ -22,16 +22,16 @@ deploy:
         createNamespace: true
         chartPath: chart
         artifactOverrides:
-          image: api-proxy
+          image: web
         valuesFiles:
           - "./my-values.yaml"
 portForward:
   - resourceType: service
     namespace: api-proxy
-    resourceName: api-proxy
+    resourceName: web
     port: 80
   - resourceType: service
     namespace: api-proxy
-    resourceName: api-proxy
+    resourceName: web
     port: 9229
     localPort: 9232
