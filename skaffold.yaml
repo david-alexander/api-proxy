@@ -2,7 +2,7 @@ apiVersion: skaffold/v2beta18
 kind: Config
 build:
   artifacts:
-    - image: web
+    - image: api-proxy
       context: fs
       sync:
         infer:
@@ -22,7 +22,7 @@ deploy:
         createNamespace: true
         chartPath: chart
         artifactOverrides:
-          image: web
+          image: api-proxy
         valuesFiles:
           - "./my-values.yaml"
 portForward:
