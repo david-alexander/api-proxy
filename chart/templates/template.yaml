@@ -100,4 +100,4 @@ kind: ConfigMap
 metadata:
   name: config
 data:
-  config.json: {{ (dict "apis" .Values.config.apis "apiCredentials" .Values.config.apiCredentials "apiEnvironments" (get .Values.config.apiEnvironmentSets .Values.config.useAPIEnvironmentSet)) | toJson | quote }}
+  config.json: {{ (dict "apis" .Values.config.apis "apiCredentials" .Values.config.apiCredentials "apiEnvironments" (get .Values.config.apiEnvironmentSets .Values.config.useAPIEnvironmentSet)) | toPrettyJson | quote }}
