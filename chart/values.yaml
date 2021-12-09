@@ -5,3 +5,5 @@ config:
     apiCredentials: [],
     apiEnvironments: []
   }
+topology:
+  useTopologyKeys: false
