@@ -1,16 +1,28 @@
 import * as http from 'http';
 import * as httpProxy from 'http-proxy';
+import * as NodeCache from 'node-cache';
 import 'reflect-metadata';
 import { APIEnvironment } from './config/APIEnvironment';
 import { Config } from "./config/Config";
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+const cache = new NodeCache({})
+
 async function main()
 {
     let proxy = httpProxy.createProxyServer({
         proxyTimeout: 60 * 60 * 1000,
         // ws: true
+    });
+
+    proxy.on('proxyRes', function (proxyRes, req, res) {
+        if ((req as any).storeResponseBody)
+        {
+            proxyRes.on('data', function (chunk) {
+                ((res as any).body = (res as any).body || []).push(chunk);
+            });
+        }
     });
 
     async function handleRequest(req: http.IncomingMessage, res: http.ServerResponse, environment: APIEnvironment, config: Config)
@@ -24,6 +36,9 @@ async function main()
             return;
         }
 
+        let route = api.findMatchingRoute(req.url!);
+        let caching = route?.caching || null;
+
         let baseURL = await api.baseURL.value.getValueAsString(context);
         let headers = await api.headers.getValues(context);
 
@@ -32,7 +47,34 @@ async function main()
             req.headers[key] = headers[key];
         }
 
-        proxy.web(req, res, { target: baseURL, changeOrigin: true, secure: false }, (err: any) => {
+        if (caching)
+        {
+            let cached = cache.get(req.url!) as any;
+
+            if (cached)
+            {
+                res.writeHead(cached.statusCode, undefined, Object.fromEntries(
+                    cached.headers
+                        .filter((h: any) => ['date', 'content-length'].indexOf(h.name.toLowerCase()) == -1)
+                        .map((h: any) => [h.name, h.value])
+                ));
+                res.end(cached.body);
+                return;
+            }
+            else
+            {
+                (req as any).storeResponseBody = true;
+                res.on('finish', () => {
+                    cache.set(req.url!, {
+                        statusCode: res.statusCode,
+                        headers: Object.entries(res.getHeaders()).map(([k, v]) => ({ name: k, value: v})),
+                        body: Buffer.concat((res as any).body)
+                    }, caching!.ttl);
+                });
+            }
+        }
+
+        proxy.web(req, res, { target: baseURL, changeOrigin: true, secure: false,  }, (err: any) => {
             console.log(err);
             if (!res.headersSent)
             {
