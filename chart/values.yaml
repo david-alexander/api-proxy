@@ -7,3 +7,6 @@ config:
   }
 topology:
   useTopologyKeys: false
+httptoolkit:
+  enable: true
+  image: null
