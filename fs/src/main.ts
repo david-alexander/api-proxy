@@ -79,7 +79,8 @@ async function main()
 
             if (process.env.HTTP_TOOLKIT_ENABLED == 'true')
             {
-                proxyOptions = { target: `http://httptoolkit-proxy:8000`, headers: { host: new URL(baseURL).hostname }, secure: false, path: `${baseURL}${req.url}` };
+                proxyOptions = { target: `http://httptoolkit-proxy:8000`, toProxy: true, prependPath: false, headers: { host: new URL(baseURL).hostname }, secure: false, path: `${baseURL}${req.url}` };
+                req.url = `${baseURL}${req.url}`;
             }
 
             proxy.web(req, res, proxyOptions, (err: any) => {
