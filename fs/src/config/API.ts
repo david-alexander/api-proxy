@@ -4,6 +4,15 @@ import { Headers } from '../values/Headers';
 import { ParameterValueWrapper } from "../values/ValueWrapper";
 import { APIRoute } from "./APIRoute";
 
+export class APIThrottling
+{
+    @Type(() => Number)
+    maxRequestsPerSecond!: number;
+
+    @Type(() => String)
+    mode!: /*'respondWith429' | */'wait';
+}
+
 export class API
 {
     @Type(() => String)
@@ -20,6 +29,9 @@ export class API
 
     @Type(() => APIRoute)
     routes!: APIRoute[];
+
+    @Type(() => APIThrottling)
+    throttling: APIThrottling | null = null;
 
     findMatchingRoute(path: string)
     {

@@ -7,3 +7,9 @@ config:
   }
 topology:
   useTopologyKeys: false
+httptoolkit:
+  enable: false
+  image: null
+  ingress:
+    enable: false
+    hostname: null

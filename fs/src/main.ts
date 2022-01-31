@@ -38,7 +38,7 @@ async function main()
 
         let route = api.findMatchingRoute(req.url!);
         let caching = route?.caching || null;
-
+        
         let baseURL = await api.baseURL.value.getValueAsString(context);
         let headers = await api.headers.getValues(context);
 
@@ -74,13 +74,22 @@ async function main()
             }
         }
 
-        proxy.web(req, res, { target: baseURL, changeOrigin: true, secure: false,  }, (err: any) => {
-            console.log(err);
-            if (!res.headersSent)
+        await environment.throttleRequest(async () => {
+            let proxyOptions: any = { target: baseURL, changeOrigin: true, secure: false };
+
+            if (process.env.HTTP_TOOLKIT_ENABLED == 'true')
             {
-                res.writeHead(502);
+                proxyOptions = { target: `http://httptoolkit-proxy:8000`, headers: { host: new URL(baseURL).hostname }, secure: false, path: `${baseURL}${req.url}` };
             }
-            res.end('Bad Gateway');
+
+            proxy.web(req, res, proxyOptions, (err: any) => {
+                console.log(err);
+                if (!res.headersSent) 
+                {
+                    res.writeHead(502);
+                }
+                res.end('Bad Gateway');
+            });
         });
     }
     
@@ -99,9 +108,11 @@ async function main()
             {
                 req.url = req.url.substring(`/${environment.name}/`.length);
                 handleRequest(req, res, environment, config);
-                break;
+                return;
             }
         }
+        res.writeHead(404);
+        res.end('API proxy environment not found.');
     });
 
     httpServer.on('upgrade', (req, socket: any, head: Buffer) => {

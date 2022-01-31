@@ -23,6 +23,7 @@
     "readcache": "^0.1.7",
     "reflect-metadata": "^0.1.13",
     "route-matcher": "^0.1.0",
+    "throttled-queue": "^2.1.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   }
