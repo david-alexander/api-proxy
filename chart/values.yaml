@@ -8,5 +8,8 @@ config:
 topology:
   useTopologyKeys: false
 httptoolkit:
-  enable: true
+  enable: false
   image: null
+  ingress:
+    enable: false
+    hostname: null

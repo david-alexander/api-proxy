@@ -269,6 +269,7 @@ __metadata:
     readcache: ^0.1.7
     reflect-metadata: ^0.1.13
     route-matcher: ^0.1.0
+    throttled-queue: ^2.1.2
     ts-node: ^10.4.0
     typescript: ^4.4.4
   languageName: unknown
@@ -1900,6 +1901,13 @@ __metadata:
     mkdirp: ^1.0.3
     yallist: ^4.0.0
   checksum: a04c07bb9e2d8f46776517d4618f2406fb977a74d914ad98b264fc3db0fe8224da5bec11e5f8902c5b9bcb8ace22d95fbe3c7b36b8593b7dfc8391a25898f32f
+  languageName: node
+  linkType: hard
+
+"throttled-queue@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "throttled-queue@npm:2.1.2"
+  checksum: ce9cf70b2c5c7361109550a2e97405a128f492233c036dbaa312990b5555ac3a946b1727003002f9741875ce82c18e08643176328af242d34c3e9b0b77d144a9
   languageName: node
   linkType: hard
 

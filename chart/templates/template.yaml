@@ -41,6 +41,9 @@ spec:
           requests:
             cpu: 100m
             memory: 90Mi
+        env:
+          - name: HTTP_TOOLKIT_ENABLED
+            value: {{ .Values.httptoolkit.enable | quote }}
       volumes:
         - name: config
           configMap:
