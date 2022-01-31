@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: {{ if .Values.topology.proxyPerNode }}DaemonSet{{ else }}Deployment{{ end }}
 metadata:
   namespace: {{ .Release.Name }}
   name: web
