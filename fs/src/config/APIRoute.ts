@@ -17,6 +17,6 @@ export class APIRoute
 
     matches(path: string)
     {
-        return routeMatcher(this.route).parse(path) != null;
+        return routeMatcher(this.route).parse(new URL(path, 'http://dummy').pathname) != null;
     }
 }
