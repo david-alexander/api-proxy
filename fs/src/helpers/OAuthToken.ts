@@ -40,12 +40,40 @@ export class OAuthTokenHelper extends Helper<OAuthTokenHelperInstanceStorage>
     @Type(() => ParameterValueWrapper)
     public getTokenEndpoint!: ParameterValueWrapper;
 
+    @Type(() => String)
+    public mode: 'custom' | 'client_credentials' = 'custom';
+
+    @Type(() => ParameterValueWrapper)
+    public clientID!: ParameterValueWrapper;
+
+    @Type(() => ParameterValueWrapper)
+    public clientSecret!: ParameterValueWrapper;
+
     private async getToken(context: ParameterValueContext): Promise<StoredOAuthToken>
     {
         let headers = await this.headers.getValues(context);
         let getTokenEndpoint = await this.getTokenEndpoint.value.getValueAsString(context);
 
-        let response: OAuthTokenResponse = await (await fetch(getTokenEndpoint, { method: 'POST', headers })).json();
+        let response: OAuthTokenResponse;
+        if (this.mode == 'custom')
+        {
+            response = await (await fetch(getTokenEndpoint, { method: 'POST', headers })).json();
+        }
+        else if (this.mode == 'client_credentials')
+        {
+            let clientID = await this.clientID.value.getValueAsString(context);
+            let clientSecret = await this.clientSecret.value.getValueAsString(context);
+            response = await (await fetch(getTokenEndpoint, {
+                method: 'POST',
+                headers: {'content-type': 'application/x-www-form-urlencoded', ...headers},
+                body: `grant_type=client_credentials&client_id=${encodeURIComponent(clientID)}&client_secret=${encodeURIComponent(clientSecret)}`
+            })).json();
+        }
+        else
+        {
+            throw 'Unknown mode';
+        }
+        
         return new StoredOAuthToken(response);
     }
 
