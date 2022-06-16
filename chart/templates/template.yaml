@@ -31,9 +31,11 @@ spec:
         - name: config
           mountPath: "/config"
           readOnly: true
+{{ if .Values.externalSecret }}
         - name: external-secret
           mountPath: "/externalSecrets"
           readOnly: true
+{{ end }}
         # - name: https
         #   containerPort: 443
         #   protocol: TCP
@@ -48,9 +50,11 @@ spec:
         - name: config
           configMap:
             name: config
+{{ if .Values.externalSecret }}
         - name: external-secret
           secret:
-            secretName: external-secret
+            secretName: {{ .Values.externalSecret }}
+{{ end }}
       nodeSelector:
         kubernetes.io/os: linux
 ---
@@ -86,19 +90,6 @@ spec:
   topologyKeys:
     - "kubernetes.io/hostname"
 {{ end }}
----
-apiVersion: kubernetes-client.io/v1
-kind: ExternalSecret
-metadata:
-  name: external-secret
-spec:
-  backendType: vault
-  data:
-{{ range .Values.externalSecrets }}
-    - key: {{ .secret }}
-      name: {{ .name }}.json
-{{ end }}
-  kvVersion: 1
 ---
 apiVersion: v1
 kind: ConfigMap
