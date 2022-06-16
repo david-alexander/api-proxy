@@ -31,9 +31,11 @@ spec:
         - name: config
           mountPath: "/config"
           readOnly: true
+{{ if .Values.externalSecret }}
         - name: external-secret
           mountPath: "/externalSecrets"
           readOnly: true
+{{ end }}
         # - name: https
         #   containerPort: 443
         #   protocol: TCP
@@ -48,9 +50,11 @@ spec:
         - name: config
           configMap:
             name: config
+{{ if .Values.externalSecret }}
         - name: external-secret
           secret:
-            secretName: external-secret
+            secretName: {{ .Values.externalSecret }}
+{{ end }}
       nodeSelector:
         kubernetes.io/os: linux
 ---

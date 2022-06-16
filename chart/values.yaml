@@ -5,7 +5,6 @@ config:
     apiEnvironments: []
   }
 topology:
-  proxyPerNode: false
   useTopologyKeys: false
 httptoolkit:
   enable: false
