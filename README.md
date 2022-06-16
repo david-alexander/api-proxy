@@ -23,7 +23,7 @@ It is not intended for applications that access services "on behalf of" an exter
 
 API Proxy is designed to be installed into a Kubernetes cluster using Skaffold. Other deployments may be possible, but are not currently officially supported.
 
-You will need a way of making your API credentials available to API Proxy. The Helm chart includes a parameter called `externalSecrets` that can be used to specify where to find this information. It is currently set up to work with the [HashiCorp Vault provider for Kubernetes External Secrets](https://external-secrets.io/provider-hashicorp-vault/). You will need to have Kubernetes External Secrets already set up in your cluster.
+You will need a way of making your API credentials available to API Proxy. The Helm chart includes a parameter called `externalSecret` that can be used to specify the name of a `Secret` (which you will need to deploy into the same namespace) whose keys will be mounted into the API Proxy pod at `/externalSecrets`. For example, you could create this `Secret` using the [External Secrets](https://external-secrets.io/) operator.
 
 ### Security considerations
 
