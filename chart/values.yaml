@@ -12,3 +12,5 @@ httptoolkit:
   ingress:
     enable: false
     hostname: null
+telemetry:
+  enabled: true

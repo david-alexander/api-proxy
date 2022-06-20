@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import * as crypto from 'crypto';
+import { tracedAsyncMethod } from "../util/Tracing";
 import { ParameterValueWrapper } from "../values/ValueWrapper";
 import { Helper, ParameterValueContextForHelper } from "./Helper";
 
@@ -17,6 +18,7 @@ export class HMACHelper extends Helper<void>
     @Type(() => ParameterValueWrapper)
     key!: ParameterValueWrapper;
 
+    @tracedAsyncMethod()
     async getOutput(context: ParameterValueContextForHelper<HMACHelper>, name: string)
     {
         if (name == 'digest')

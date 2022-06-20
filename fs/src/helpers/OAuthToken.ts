@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import { ParameterValueContext } from "../Context";
+import { tracedAsyncMethod } from "../util/Tracing";
 import { Headers } from '../values/Headers';
 import { ParameterValue } from "../values/Value";
 import { ParameterValueWrapper } from "../values/ValueWrapper";
@@ -49,6 +50,7 @@ export class OAuthTokenHelper extends Helper<OAuthTokenHelperInstanceStorage>
     @Type(() => ParameterValueWrapper)
     public clientSecret!: ParameterValueWrapper;
 
+    @tracedAsyncMethod()
     private async getToken(context: ParameterValueContext): Promise<StoredOAuthToken>
     {
         let headers = await this.headers.getValues(context);
@@ -77,6 +79,7 @@ export class OAuthTokenHelper extends Helper<OAuthTokenHelperInstanceStorage>
         return new StoredOAuthToken(response);
     }
 
+    @tracedAsyncMethod()
     async getOutput(context: ParameterValueContextForHelper<OAuthTokenHelper>, name: string): Promise<ParameterValue>
     {
         if (name == 'token')

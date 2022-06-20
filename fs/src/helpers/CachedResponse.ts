@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import { ParameterValueContext } from "../Context";
+import { tracedAsyncMethod } from "../util/Tracing";
 import { Headers } from '../values/Headers';
 import { ParameterValue } from "../values/Value";
 import { ParameterValueWrapper } from "../values/ValueWrapper";
@@ -39,6 +40,7 @@ export class CachedResponseHelper extends Helper<CachedResponseHelperInstanceSto
     @Type(() => Number)
     public maxAgeSeconds: number | null = null;
 
+    @tracedAsyncMethod()
     private async getResponse(context: ParameterValueContext): Promise<CachedResponse>
     {
         let headers = await this.headers.getValues(context);
@@ -49,6 +51,7 @@ export class CachedResponseHelper extends Helper<CachedResponseHelperInstanceSto
         return new CachedResponse(response, this.maxAgeSeconds || 0);
     }
 
+    @tracedAsyncMethod()
     async getOutput(context: ParameterValueContextForHelper<CachedResponseHelper>, name: string): Promise<ParameterValue>
     {
         if (name == 'response')

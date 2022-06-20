@@ -3,6 +3,7 @@ import { ParameterValueContext } from "../Context";
 import { Config } from "./Config";
 
 import type ThrottledQueue from 'throttled-queue';
+import { tracedAsyncMethod } from "../util/Tracing";
 const tq: typeof ThrottledQueue = require('throttled-queue');
 
 export class APIEnvironment
@@ -49,6 +50,7 @@ export class APIEnvironment
         };
     }
 
+    @tracedAsyncMethod()
     public async throttleRequest<TResult>(fn: () => Promise<TResult>)
     {
         return await this.throttledQueue(fn);

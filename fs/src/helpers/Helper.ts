@@ -1,4 +1,5 @@
 import { ParameterValueContext } from "../Context";
+import { tracedAsyncMethod } from "../util/Tracing";
 import { ParameterValue } from "../values/Value";
 
 export abstract class Helper<TInstanceStorage>
@@ -18,6 +19,7 @@ export class HelperWithContext<THelper extends Helper<unknown>>
 
     }
 
+    @tracedAsyncMethod()
     async getOutput(name: string): Promise<ParameterValue>
     {
         let helperContext = new ParameterValueContextForHelper<THelper>(this.context, this.instanceStorage);

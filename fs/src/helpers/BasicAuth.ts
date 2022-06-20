@@ -1,4 +1,5 @@
 import { Type } from "class-transformer";
+import { tracedAsyncMethod } from "../util/Tracing";
 import { ParameterValue } from "../values/Value";
 import { ParameterValueWrapper } from "../values/ValueWrapper";
 import { Helper, ParameterValueContextForHelper } from "./Helper";
@@ -11,6 +12,7 @@ export class BasicAuthHelper extends Helper<void>
     @Type(() => ParameterValueWrapper)
     password!: ParameterValueWrapper;
 
+    @tracedAsyncMethod()
     async getOutput(context: ParameterValueContextForHelper<BasicAuthHelper>, name: string): Promise<ParameterValue>
     {
         if (name == 'digest')

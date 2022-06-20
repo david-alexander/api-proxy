@@ -1,3 +1,5 @@
+import './Telemetry'; // This needs to be at the top!
+
 import * as http from 'http';
 import * as httpProxy from 'http-proxy';
 import * as NodeCache from 'node-cache';

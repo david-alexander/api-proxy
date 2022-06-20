@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import { ParameterValueContext } from "../Context";
+import { tracedAsyncMethod } from "../util/Tracing";
 import { ParameterValueSource } from "./Value";
 const moeJS:any = require('@toptensoftware/moe-js');
 
@@ -10,6 +11,7 @@ export class MoeJSTemplateParameterValueSource extends ParameterValueSource
 
     private compiledTemplate: any = null;
 
+    @tracedAsyncMethod()
     async getValue(context: ParameterValueContext): Promise<string>
     {
         if (!this.compiledTemplate)

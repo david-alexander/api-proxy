@@ -5,6 +5,7 @@ import { ParameterValue } from "../values/Value";
 import { ParameterValueWrapper } from "../values/ValueWrapper";
 import { Helper, ParameterValueContextForHelper } from "./Helper";
 import jwtDecode from "jwt-decode";
+import { tracedAsyncMethod } from "../util/Tracing";
 
 class StoredJWT
 {
@@ -40,6 +41,7 @@ export class JWTHelper extends Helper<JWTHelperInstanceStorage>
         return new StoredJWT(rawToken);
     }
 
+    @tracedAsyncMethod()
     async getOutput(context: ParameterValueContextForHelper<JWTHelper>, name: string): Promise<ParameterValue>
     {
         if (name == 'token')
