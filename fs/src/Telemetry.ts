@@ -32,7 +32,7 @@ registerInstrumentations({
     instrumentations: [
         new HttpInstrumentation({
             ignoreIncomingRequestHook: (req) => false,
-            ignoreOutgoingRequestHook: (req) => true
+            ignoreOutgoingRequestHook: (req) => false
         }),
     ],
 });
